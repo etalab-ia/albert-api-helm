@@ -1,0 +1,34 @@
+
+environments:
+  sandbox:
+    values:
+      - version: 0.0.1
+        addRedirect: False
+        enablePermanentRedirect: True
+        newDomain: visio-sandbox.beta.numerique.gouv.fr
+---
+repositories:
+  - name: meet
+    url: https://suitenumerique.github.io/meet/
+---
+releases:
+  - name: extra
+    installed: {{ not (regexMatch "^dev.*" .Environment.Name) | toYaml }}
+    missingFileHandler: Warn
+    namespace: {{ .Namespace }}
+    chart: ./extra
+    values:
+      - env.d/{{ .Environment.Name }}/values.meet.yaml.gotmpl
+      - addRedirect: {{ .Values | get "addRedirect" "False" }}
+        enablePermanentRedirect: {{ .Values | get "enablePermanentRedirect" "False"}}
+        oldDomain: {{ .Values | get "oldDomain" "demo.com" }}
+        newDomain: {{ .Values | get "newDomain" "demo.com" }}
+
+  - name: meet
+    version: {{ .Values.version }}
+    namespace: {{ .Namespace }}
+    missingFileHandler: Warn
+    chart: meet/meet
+    values:
+      - env.d/common.values.yaml
+      - env.d/{{ .Environment.Name }}/values.meet.yaml.gotmpl
