@@ -1,5 +1,18 @@
 This repository contains the helm chart to deploy albert-api and its components on Kubernetes.
 
+## Provisioning
+
+### Manually
+- Create a kubernetes cluster with the provider of your choice. To fo so, you can use the Terraform module available in this repository, or use the Scaleway console to create a managed kubernetes cluster.
+- We recommend having at least 3 nodes, including one with a GPU sized for the LLM you wish to use.
+- Add the following label to your gpu node : `k8s.scaleway.com/pool-name: "gpu"`, and for your other nodes : `k8s.scaleway.com/pool-name: "cpu-ram"` so that each deployment goes to the appropriate node.
+- Verify that the connection with your cluster is functional and that the nodes are available with `kubectl get nodes`
+
+### Using Terraform (Scaleway provider)
+We provision the kubernetes cluster with Terraform, using the Scaleway provider. You can use this module to create a kubernetes cluster with the provider of your choice.
+> **Note**: We are storing the tfstate locally.
+
+
 ## Deployment
 - Create a kubernetes cluster with the provider of your choice
 - We recommend having at least 3 nodes, including one with a GPU sized for the LLM you wish to use.
