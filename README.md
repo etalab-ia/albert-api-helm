@@ -12,6 +12,10 @@ This repository contains the helm chart to deploy albert-api and its components 
 We provision the kubernetes cluster with Terraform, using the Scaleway provider. You can use this module to create a kubernetes cluster with the provider of your choice.
 > **Note**: We are storing the tfstate locally.
 
+Download the new kubeconfig from Scaleway console and update your local kubeconfig file with the following command:
+```bash 
+export KUBECONFIG=<path_to_your_kubeconfig_file>
+```
 
 ## Deployment
 - Create a kubernetes cluster with the provider of your choice
