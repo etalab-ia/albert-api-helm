@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vllm
-  namespace: {{ .Values.global.namespace | default "default" }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     app: vllm
     {{- include "albert-stack.labels" . | nindent 4 }}
