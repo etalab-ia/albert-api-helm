@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bge-embeddings
-  namespace: {{ .Values.global.namespace | default "default" }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     app: bge-embeddings
     {{- include "albert-stack.labels" . | nindent 4 }}
@@ -17,8 +17,6 @@ spec:
       labels:
         app: bge-embeddings
     spec:
-      nodeSelector:
-        k8s.scaleway.com/pool-name: "cpu-ram"
       containers:
       - name: bge-embeddings
         image: {{ .Values.embeddings.image.repository }}:{{ .Values.embeddings.image.tag }}
